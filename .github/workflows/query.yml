@@ -15,8 +15,13 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Fetch URL
-        uses: indiesdev/curl@v1.1
+        uses: fjogeleit/http-request-action@v1
         with:
-          log-response: true
           url: "${{ inputs.url }}"
-          method: "${{ inputs.method }}"
+          method: GET
+        id: myRequest
+      - name: Show Response
+        run: |
+          echo ${{ steps.myRequest.outputs.response }}
+          echo ${{ steps.myRequest.outputs.headers }}
+          echo ${{ fromJson(steps.myRequest.outputs.response).field_you_want_to_access }}
